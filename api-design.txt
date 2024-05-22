@@ -1,0 +1,36 @@
+Assumtpion: Time to book - 8am to 6pm
+
+------Objects------
+Slot:
+    - slotID: UUID
+    - coachID: UUID
+    - date: Date
+    - startTime: Time
+    - endTime: Time
+
+Call:
+    - callID: UUID
+    - slotID: UUID
+    - coachID: UUID
+    - studentID: UUID
+
+Student:
+    - studentID: UUID
+    - bookedCalls: List<Call>
+
+Coach:
+    - coachID: UUID
+    - slots: List<Slot>
+    - bookedCalls: List<Call>
+
+------APIs-------
+Coach: 
+    - addSlot(startTime) -> slotID
+    - viewAllSlot()
+    - viewBookedSlot()
+    - recordReview(review, callID)
+    - viewHistoryCalls()
+
+Student:
+    - bookSlot(slotID) -> callID
+    - viewBookedSlot()
