@@ -1,23 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {useState, useEffect} from "react";
+import Header from "./components/Header"
+import Login from './pages/Login'
+import Scheduler from './pages/Scheduler'
 
 function App() {
+  const [isSignedIn, setIsSignedIn] = useState(false)
+  const [user, setUser] = useState(null)
+
+  useEffect(() => {
+    fetch('/api/user').then(res => {
+      if (res.ok) {
+        res.json().then(data => {
+          setIsSignedIn(true)
+          setUser(data)
+        })
+      }
+    })
+  }, []);
+
+  const logout = () => {
+    fetch("/api/logout", {
+      method: "POST",
+    }).then(res => {
+      if (res.ok) {
+        window.alert("You've logged out!");
+        setIsSignedIn(false)
+      }
+    })
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Header isSignedIn={isSignedIn} handleLogout={logout}/>
+      {isSignedIn ? <Scheduler user={user}/> : <Login setIsSignedIn={setIsSignedIn} setUser={setUser}/>}
     </div>
   );
 }

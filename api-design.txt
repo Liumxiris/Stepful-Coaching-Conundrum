@@ -1,36 +1,51 @@
-Assumtpion: Time to book - 8am to 6pm
+Assumtpion: 
+    - Time to book - 8am to 6pm
+    - Coach cannot added a slot that overlaps with another slot
+    - Student cannot cancle the meeting
+
 
 ------Objects------
 Slot:
-    - slotID: UUID
-    - coachID: UUID
+    - username: String
     - date: Date
     - startTime: Time
-    - endTime: Time
+    - booked: Bool
 
 Call:
-    - callID: UUID
-    - slotID: UUID
+    - date: Date
+    - startTime: Time
     - coachID: UUID
     - studentID: UUID
+    - review: {score: num, notes: string}
 
-Student:
-    - studentID: UUID
-    - bookedCalls: List<Call>
+Users:
+    - _id: UUID
+    - username: String
+    - password: String
+    - userType: [Coach, Student]
+    - phone: String
 
-Coach:
-    - coachID: UUID
-    - slots: List<Slot>
-    - bookedCalls: List<Call>
+    Student:
+        - bookedCalls: List<Call>
+
+    Coach:
+        - slots: List<Slot>
+        - bookedCalls: List<Call>
 
 ------APIs-------
+App:
+    - login
+    - logout
+    - getUser
+    
 Coach: 
-    - addSlot(startTime) -> slotID
-    - viewAllSlot()
+    - addSlot()
+    - viewAllSlots()
     - viewBookedSlot()
-    - recordReview(review, callID)
+    - recordReview()
     - viewHistoryCalls()
 
 Student:
-    - bookSlot(slotID) -> callID
+    - viewAllSlots()
+    - bookSlot()
     - viewBookedSlot()
